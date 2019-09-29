@@ -16,3 +16,4 @@ This exercise is intentionally left open ended.  Within you will find a skeleton
 
 # Expectations
 Implement the above listed requirements in a manner you see fitting.  Demonstrate design and implementation aspects you feel are important in a software project.
+Testing
