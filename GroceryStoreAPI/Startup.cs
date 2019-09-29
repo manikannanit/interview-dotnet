@@ -35,7 +35,23 @@ namespace GroceryStoreAPI
             }
 
             app.UseHttpsRedirection();
-            app.UseMvc();
+            // app.UseMvc();
+            app.UseMvc(routes =>
+            {
+                routes.MapAreaRoute(
+                    name: "Customers",
+                    areaName: "Customers",
+                    template: "Customers/{controller=Customers}/{action=Index}/{id?}"
+                    );
+                routes.MapAreaRoute(
+                    name: "Order",
+                    areaName: "Order",
+                    template: "Services/{controller=Order}/{action=Index}/{id?}"
+                    );
+                routes.MapRoute(
+                   name: "default",
+                   template: "{controller=Customers}/{action=GetAllCustmerList}/{id?}");
+            });
         }
     }
 }
