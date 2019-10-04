@@ -7,13 +7,16 @@ namespace GroceryStoreAPI.Models
 {
     public class Customers
     {
-        public string CustomerID { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
 
-        public string DOB { get; set; }
-        public string Address { get; set; }
-        public string ContactNumber { get; set; }
-        public string EmailID { get; set; }
+        public int id { get; set; }
+        public string name { get; set; }       
+    }   
+
+    public class APIData
+    {
+        public List<Customers> customers { get; set; }
+        public List<Models.Orders> orders { get; set; }
+        public List<Models.Products> products { get; set; }
     }
+    
 }

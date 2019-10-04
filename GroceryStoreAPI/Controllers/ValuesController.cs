@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using System.IO;
+using Newtonsoft.Json;
 
 namespace GroceryStoreAPI.Controllers
 {
@@ -12,10 +14,17 @@ namespace GroceryStoreAPI.Controllers
     {
         // GET api/values
         [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        public ActionResult<Models.APIData> Get()
         {
-            return new string[] { "value1", "value2" };
+            string data;
+            using (StreamReader reader = new StreamReader(new FileStream(Path.GetFileName("../database.json"),FileMode.Open)))
+            {
+                data = reader.ReadToEnd();
+            }           
+            var Customers = JsonConvert.DeserializeObject<Models.APIData>(data);           
+            return Customers;          
         }
+
 
         // GET api/values/5
         [HttpGet("{id}")]

@@ -7,13 +7,17 @@ namespace GroceryStoreAPI.Models
 {
     public class Products
     {
-        public string ProductID { get; set; }
-        public string Name { get; set; }
-        public string Brand { get; set; }
+        //public string ProductID { get; set; }
+        //public string Name { get; set; }
+        //public string Brand { get; set; }
 
-        public DateTime Expiry { get; set; }
-        public bool Available { get; set; }
-        public string Description { get; set; }
-        public double Price { get; set; }
+        //public DateTime Expiry { get; set; }
+        //public bool Available { get; set; }
+        //public string Description { get; set; }
+        //public double Price { get; set; }
+
+        public int id { get; set; }
+        public string description { get; set; }
+        public float price { get; set; }
     }
 }

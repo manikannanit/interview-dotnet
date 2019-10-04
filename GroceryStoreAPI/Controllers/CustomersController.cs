@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.IO;
+using Newtonsoft.Json;
 
 namespace GroceryStoreAPI.Controllers
 {
@@ -11,60 +13,76 @@ namespace GroceryStoreAPI.Controllers
     [ApiController]
     public class CustomersController : ControllerBase
     {
+
+        //object customers = System.IO.File.ReadAllText("~/database.json"){
+
+
         static List<Models.Customers> customers = new List<Models.Customers>    {
                 new Models.Customers
                 {
-                    CustomerID ="01",
-                    FirstName="Manikannan",
-                    LastName= "Nagarajan",
-                    Address ="",
-                    DOB ="02/19/1982",
-                    ContactNumber ="8043098677"
+                    //CustomerID ="01",
+                    //FirstName="Manikannan",
+                    //LastName= "Nagarajan",
+                    //Address ="",
+                    //DOB ="02/19/1982",
+                    //ContactNumber ="8043098677"
 
                 },
                  new Models.Customers
                 {
-                     CustomerID ="02",
-                    FirstName="Vijila",
-                    LastName= "Manikannan",
-                    Address ="",
-                    DOB ="03-17-1986",
-                    ContactNumber ="8043098600"
+                    // CustomerID ="02",
+                    //FirstName="Vijila",
+                    //LastName= "Manikannan",
+                    //Address ="",
+                    //DOB ="03-17-1986",
+                    //ContactNumber ="8043098600"
                 }
             };
 
-        [HttpGet(Name = "GetAllCustomers")]
-        public IEnumerable<Models.Customers> GetAllCustmerList()
+
+        [HttpGet(Name = "GetAllCustmers")]
+        public IEnumerable<Models.Customers> GetAllCustmers()
         {
-            return customers;
+            string data;
+            using (StreamReader reader = new StreamReader(new FileStream(Path.GetFileName("../database.json"), FileMode.Open)))
+            {
+                data = reader.ReadToEnd();
+            }
+            var Customers = JsonConvert.DeserializeObject<Models.APIData>(data);
+            var AllCustomers = Customers.customers;
+            return AllCustomers;            
         }
 
-        //[HttpGet("{CustomerID}", Name = "Get")]
-        //public IEnumerable<Models.Customers> GetCustmer()
-        //{
-        //    return customers.SingleOrDefault(x => x.CustomerID ==Name);
 
-        //}
-
-        
-        [HttpGet("{CustomerID}", Name = "GetCustomer")]
-        public Models.Customers GetCustmer(string CustomerID)
+        [HttpGet("{CustomerID}", Name = "GetAllCustomers")]       
+        public IEnumerable<Models.Customers> GetAllCustmerList(int CustomerID)
         {
-           var selectedCustomer = customers.SingleOrDefault(x => x.CustomerID == CustomerID);
-
-           // if (selectedCustomer != null)                
-            return selectedCustomer;
-        }
+            string data;
+            using (StreamReader reader = new StreamReader(new FileStream(Path.GetFileName("../database.json"), FileMode.Open)))
+            {
+                data = reader.ReadToEnd();
+            }
+            var Customers = JsonConvert.DeserializeObject<Models.APIData>(data);        
+            var selectedOrder = Customers.customers.Where(x => x.id == CustomerID);
+            return selectedOrder;         
+        } 
 
         [HttpPost]
         public Models.Customers post([FromBody] Models.Customers customer)
         {
+
+            string data;
+            using (StreamReader reader = new StreamReader(new FileStream(Path.GetFileName("../database.json"), FileMode.Open)))
+            {
+                data = reader.ReadToEnd();
+            }
+            var Customers = JsonConvert.DeserializeObject<Models.APIData>(data);
+            Customers.customers.Add(customer);
+           
             customers.Add(customer);
             return customer;
         }
     }
-
-
 
 
     // GET: api/Customers
